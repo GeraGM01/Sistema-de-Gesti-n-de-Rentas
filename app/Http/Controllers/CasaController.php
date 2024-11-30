@@ -3,28 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Propiedad;
 use App\Models\imagen;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+
+class CasaController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         // URL de la API
@@ -42,11 +28,12 @@ class HomeController extends Controller
         $estadosMunicipios = $response->json();
 
        // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
-        $casas = Propiedad::where('ID_Usuario',  Auth::id() )->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
+        $casas = Propiedad::where('ID_Usuario', 1)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
+        
         
 
         // Pasar los datos a la vista
-        return view('home', [
+        return view('casas', [
             'estados' => $estadosMunicipios,
             'casas' => $casas,
         ]);
@@ -84,7 +71,7 @@ class HomeController extends Controller
     {
 
         $nuevaCasa = new Propiedad();
-        $nuevaCasa->ID_Usuario = Auth::id();
+        $nuevaCasa->ID_Usuario = 1; // Asignar un usuario por defecto, puedes personalizar esto 
         $nuevaCasa->direccion = $request->Direccion;
         $nuevaCasa->estado = $request->Estado;
         $nuevaCasa->municipio = $request->Municipio;
@@ -112,6 +99,7 @@ class HomeController extends Controller
 
 
         // Redirigir con un mensaje de éxito
-        return redirect()->route('home')->with('success', 'Casa agregada correctamente.');
+        return redirect()->route('casas.index')->with('success', 'Casa agregada correctamente.');
     }
+
 }
