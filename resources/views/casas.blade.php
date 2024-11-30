@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('welcome')
 
 @section('content')
 <div class="container">
@@ -22,12 +22,11 @@
                     <div class="card h-100">
                        <!-- Imagen de fondo -->
                        <div 
-                       class="card-img-top" 
-                       style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
-                            background-size: contain; /* Ajusta la imagen para que se vea completa */
-                            background-position: center;
-                            background-repeat: no-repeat; /* Evita que la imagen se repita si es más pequeña que el contenedor */
-                            height: 200px;">
+                            class="card-img-top" 
+                            style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
+                                    background-size: cover; 
+                                    background-position: center; 
+                                    height: 200px;">
                         </div>
                         
                         <!-- Información de la casa -->
@@ -49,7 +48,7 @@
     <div class="modal fade" id="agregarCasaModal" tabindex="-1" aria-labelledby="agregarCasaModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('casas.guardar') }}" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="agregarCasaModalLabel">Agregar Casa</h5>
