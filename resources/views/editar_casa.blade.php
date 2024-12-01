@@ -48,8 +48,10 @@
             <label for="Tipo" class="form-label">Tipo de Casa</label>
             <select class="form-select" id="Tipo" name="Tipo" required>
                 <option value="" disabled>Selecciona un tipo</option>
-                <option value="Residencial" {{ old('Tipo', $casa->Tipo) == 'Residencial' ? 'selected' : '' }}>Residencial</option>
-                <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Comercial</option>
+                <option value="Residencial" {{ old('Tipo', $casa->Tipo) == 'Residencial' ? 'selected' : '' }}>Casa</option>
+                <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Departamento</option>
+                <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Condominio</option>
+                <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Oficina</option>
             </select>
         </div>
     
