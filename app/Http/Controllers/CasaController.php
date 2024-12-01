@@ -102,4 +102,81 @@ class CasaController extends Controller
         return redirect()->route('casas.index')->with('success', 'Casa agregada correctamente.');
     }
 
+    public function editar($id)
+    {
+        // URL de la API
+        $apiUrl = 'https://raw.githubusercontent.com/martinciscap/json-estados-municipios-mexico/master/estados-municipios.json';
+
+        // Hacer una solicitud GET a la API
+        $response = Http::get($apiUrl);
+
+        // Validar si la solicitud falló
+        if ($response->failed()) {
+            return back()->withErrors(['error' => 'No se pudo obtener la información de estados y municipios.']);
+        }
+
+        // Obtener los datos en formato JSON
+        $estadosMunicipios = $response->json();
+        $casa = Propiedad::findOrFail($id);
+        // Pasar los datos a la vista
+        return view('editar_casa', [
+            'estados' => $estadosMunicipios,
+            'casa' => $casa,
+        ]);
+    }
+
+    public function actualizar(Request $request, $id)
+    {
+
+        $casa = Propiedad::findOrFail($id); // Encontrar la casa por su ID
+
+        // Validar y actualizar los datos
+        $casa->direccion = $request->Direccion;
+        $casa->estado = $request->Estado;
+        $casa->municipio = $request->Municipio;
+        $casa->precio_renta = $request->Precio_Renta;
+        $casa->tipo = $request->Tipo;
+        $casa->estatus = $request->Estatus;
+        $casa->descripcion = $request->Descripcion;
+        $casa->save(); // Guardar los cambios
+
+        // Subir nuevas imágenes si existen
+        if ($request->hasFile('nuevas_imagenes')) {
+            foreach ($request->file('nuevas_imagenes') as $image) {
+                // Guardar cada imagen en el almacenamiento público
+                $path = $image->store('imagenes', 'public');
+
+                // Crear una nueva instancia del modelo de imagen y asociarla con la propiedad
+                $casa->imagenes()->create([
+                    'path' => $path,
+                ]);
+            }
+        }
+
+
+        return redirect()->route('casas.editar', $id)->with('success', 'Casa actualizada correctamente.');
+    }
+
+    public function eliminar($id)
+    {
+        $casa = Propiedad::findOrFail($id); // Buscar la casa por su ID
+        $casa->delete(); // Eliminar la casa de la base de datos
+
+        return redirect()->route('home')->with('success', 'Casa eliminada correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        $imagen = Imagen::findOrFail($id);
+
+        if (Storage::delete($imagen->path)) {
+            $imagen->delete();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
+
+    
+
 }

@@ -19,14 +19,13 @@
         <div class="row">
             @foreach ($casas as $casa)
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                       <!-- Imagen de fondo -->
-                       <div 
-                       class="card-img-top" 
-                       style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
-                            background-size: contain; /* Ajusta la imagen para que se vea completa */
+                    <div class="card h-100" id="card_img" style="cursor: pointer;" onclick="window.location='{{ route('casas.editar', $casa->id) }}'">
+                    <!-- Imagen de fondo -->
+                    <div class="card-img-top"
+                    style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
+                            background-size: contain; 
                             background-position: center;
-                            background-repeat: no-repeat; /* Evita que la imagen se repita si es más pequeña que el contenedor */
+                            background-repeat: no-repeat; 
                             height: 200px;">
                         </div>
                         
