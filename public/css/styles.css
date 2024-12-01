@@ -1,0 +1,158 @@
+/* Estilos generales para el modal */
+.modal-dialog {
+    max-width: 800px;
+    margin: 30px auto;
+    border-radius: 10px;
+}
+
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    border: none;
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.btn-close {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Estilos para el cuerpo del modal */
+.modal-body {
+    padding: 30px;
+}
+
+.modal-body .form-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.modal-body .form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.modal-body .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.modal-body .mb-3 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para botones */
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px); /* Efecto de elevarse */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Efecto de elevarse */
+}
+
+/* Estilos para las imágenes */
+#imageInputsContainer {
+    margin-bottom: 20px;
+}
+
+#imageInputsContainer .image-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#imageInputsContainer input[type="file"] {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+#imageInputsContainer .remove-image-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+#imageInputsContainer .remove-image-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px); /* Efecto de elevarse */
+}
+
+/* Estilos para los campos adicionales */
+#addImageButton {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+#addImageButton:hover {
+    background-color: #218838;
+    transform: translateY(-2px); /* Efecto de elevarse con un valor más pequeño */
+}
+
+/* Estilos para el fondo del modal */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para las tarjetas (cards) */
+#card_img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+#card_img:hover {
+    transform: translateY(-5px); /* Eleva la tarjeta ligeramente */
+    box-shadow: 0 6px 20px rgba(9, 32, 240, 0.842); /* Agrega sombra más intensa */
+}
