@@ -44,11 +44,16 @@ class HomeController extends Controller
        // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
         $casas = Propiedad::where('ID_Usuario',  Auth::id() )->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
         
+            // Obtener las casas con estatus 'Disponible'
+        $casasDisponibles = Propiedad::where('estatus', 'Disponible')
+        ->with('imagenes') // Para cargar las imágenes de las casas
+        ->get();
 
         // Pasar los datos a la vista
         return view('home', [
             'estados' => $estadosMunicipios,
             'casas' => $casas,
+            'casasD' => $casasDisponibles,
         ]);
     }
 
@@ -93,8 +98,6 @@ class HomeController extends Controller
         $nuevaCasa->estatus = $request->EstadoPropiedad;
         $nuevaCasa->descripcion = $request->Descripcion;
         $nuevaCasa->save(); // Guardar la casa en la base de datos
-
-        
        
         // Manejo de las imágenes
         if ($request->hasFile('images')) {
@@ -109,8 +112,6 @@ class HomeController extends Controller
                 $nuevaImagen->save(); // Guardar la imagen en la base de datos
             }
         }
-
-
         // Redirigir con un mensaje de éxito
         return redirect()->route('home')->with('success', 'Casa agregada correctamente.');
     }
