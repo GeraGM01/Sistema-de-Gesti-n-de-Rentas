@@ -109,7 +109,7 @@ class HomeController extends Controller
         $nuevaCasa->estatus = $request->EstadoPropiedad;
         $nuevaCasa->descripcion = $request->Descripcion;
         $nuevaCasa->save(); // Guardar la casa en la base de datos
-       
+
         // Manejo de las imágenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {

@@ -24,6 +24,14 @@ Route::delete('/imagenes/eliminar/{id}', [CasaController::class, 'destroy'])->na
 
 Route::post('/propiedades/{id}/rentar', [RentaController::class, 'rentar'])->name('propiedades.rentar');
 Route::get('/mis-rentas', [RentaController::class, 'misRentas'])->name('rentas.mis-rentas');
+Route::post('/propiedades/{id}/finalizarRenta', [RentaController::class, 'finalizarRenta'])->name('propiedades.finalizarRenta');
+
+
+
+
+
+
+
 
 
 

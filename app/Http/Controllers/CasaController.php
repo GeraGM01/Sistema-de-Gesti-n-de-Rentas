@@ -33,7 +33,7 @@ class CasaController extends Controller
 
         $casas = Propiedad::where('ID_Usuario', 1)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
 
-        
+
 
 
         // Pasar los datos a la vista
@@ -189,4 +189,9 @@ class CasaController extends Controller
         return view('detalles', ['propiedad' => $propiedad]);
     }
 
-}
+
+
+
+    }
+
+

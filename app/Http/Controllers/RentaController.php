@@ -34,11 +34,11 @@ class RentaController extends Controller
             'ciudad' => $propiedad->Estado . ', ' . $propiedad->Municipio,
             'fecha' => now()->format('d-m-Y'),
             'arrendador' => $propiedad->usuario->nombres . ' ' . $propiedad->usuario->apellido_paterno . ' ' . $propiedad->usuario->apellido_materno,
-            'arrendatario' => Auth::user()->nombres. ' ' .Auth::user()->apellido_paterno. ' ' . Auth::user()->apellido_materno, 
-            'direccion' => $propiedad->Direccion, 
+            'arrendatario' => Auth::user()->nombres. ' ' .Auth::user()->apellido_paterno. ' ' . Auth::user()->apellido_materno,
+            'direccion' => $propiedad->Direccion,
             'inicio' => now()->format('d-m-Y'),
-            'fin' => now()->addYear()->format('d-m-Y'), 
-            'renta' => $propiedad->Precio_Renta, 
+            'fin' => now()->addYear()->format('d-m-Y'),
+            'renta' => $propiedad->Precio_Renta,
         ];
 
         // Generar el PDF del contrato usando la vista y los datos
@@ -66,4 +66,31 @@ class RentaController extends Controller
         $misRentas = Propiedad::where('rented_by', Auth::id())->get();
         return view('rentas.mis-rentas', compact('misRentas'));
     }
+    public function finalizarRenta(Request $request, $id)
+    {
+        // Validar datos del formulario
+        $request->validate([
+            'Reseña' => 'required|string|max:500',
+            'Calificacion' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Buscar la propiedad por ID
+        $propiedad = Propiedad::findOrFail($id);
+
+        // Verificar si la propiedad está rentada
+        if (is_null($propiedad->rented_by)) {
+            return redirect()->back()->withErrors('La propiedad no está rentada actualmente.');
+        }
+
+        // Guardar la reseña y calificación, y marcar como no rentada
+        $propiedad->Reseñas = $request->input('Reseña');
+        $propiedad->Calificacion = $request->input('Calificacion');
+        $propiedad->rented_by = null; // La propiedad ya no está rentada
+        $propiedad->Estatus = 'Disponible';
+        $propiedad->save();
+
+        return redirect()->back()->with('success', 'Gracias por tu opinión. La propiedad está ahora disponible.');
+    }
+
+
 }
