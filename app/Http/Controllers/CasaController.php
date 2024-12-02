@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Propiedad;
 use App\Models\imagen;
+use Illuminate\Support\Facades\Auth;
 
 
 class CasaController extends Controller
@@ -26,11 +27,18 @@ class CasaController extends Controller
 
         // Obtener los datos en formato JSON
         $estadosMunicipios = $response->json();
+        $user = Auth::user();
 
        // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
+<<<<<<< HEAD
         $casas = Propiedad::where('ID_Usuario', 1)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
         
         
+=======
+        $casas = Propiedad::where('ID_Usuario', $user->id)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
+
+
+>>>>>>> c2beaf4 (Pdf)
 
         // Pasar los datos a la vista
         return view('casas', [
