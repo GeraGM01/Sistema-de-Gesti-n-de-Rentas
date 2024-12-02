@@ -109,7 +109,7 @@
         </div>
 
         <div class="footer">
-            <p>Contrato elaborado por <strong>TRENTA DE CASAS LARAVEL</strong>. Todos los derechos reservados.</p>
+            <p>Contrato elaborado por <strong>RENTA DE CASAS LARAVEL</strong>. Todos los derechos reservados.</p>
         </div>
     </div>
 </body>
