@@ -15,9 +15,12 @@
 
     <!-- Mostrar mensaje si no hay casas -->
     @if ($casas->isEmpty())
-    <div class="alert alert-warning text-center" role="alert">
-        No hay propiedades disponibles en este momento.
-    </div>
+
+        <!-- Mensaje si no hay casas -->
+        <div class="alert alert-warning text-center" role="alert">
+            No hay casas disponibles para mostrar en este momento.
+        </div>
+
     @else
     <!-- Tarjetas de las propiedades -->
     <div class="row">
@@ -52,7 +55,50 @@
                     </div>
                     @endif
                 </div>
+
+            @endforeach
+
+    <div class="alert alert-warning text-center" role="alert">
+        No hay propiedades disponibles en este momento.
+    </div>
+    @else
+    <!-- Tarjetas de las propiedades -->
+    <div class="row">
+        @foreach ($casas as $casa)
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" id="card_img" style="cursor: pointer;" @if(auth()->user()->rol === 'arrendador')
+                onclick="window.location='{{ route('casas.editar', $casa->id) }}'"
+            @endif">
+                <!-- Imagen de la propiedad -->
+                <div class="card-img-top"
+                    style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
+                           background-size: cover; 
+                           background-position: center;
+                           height: 200px;">
+                </div>
+                <!-- Detalles de la propiedad -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ $casa->Tipo }} - ${{ number_format($casa->Precio_Renta, 2) }}</h5>
+                    <p class="card-text">
+                        <strong>Dirección:</strong> {{ $casa->Direccion }}<br>
+                        <span class="badge bg-primary">{{ $casa->Estatus }}</span>
+                    </p>
+
+                    <!-- Opciones si la propiedad está disponible -->
+                    @if ($casa->Estatus === 'Disponible')
+                    <div class="d-flex gap-2">
+                        <form action="{{ route('propiedades.rentar', $casa->id) }}" method="POST">
+                            @csrf
+                            @if(auth()->user()->rol === 'arrendatario')
+                            <button type="submit" class="btn btn-success">Rentar</button>
+                            @endif
+                        </form>
+                        <a href="{{ route('propiedades.Detalles', $casa->id) }}" class="btn btn-primary">Ver Detalles</a>
+                    </div>
+                    @endif
+                </div>
             </div>
+
         </div>
         @endforeach
     </div>

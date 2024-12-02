@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Propiedad;
 use App\Models\imagen;
+use Illuminate\Support\Facades\Auth;
 
 
 class CasaController extends Controller
@@ -26,10 +27,13 @@ class CasaController extends Controller
 
         // Obtener los datos en formato JSON
         $estadosMunicipios = $response->json();
+        $user = Auth::user();
 
        // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
+
         $casas = Propiedad::where('ID_Usuario', 1)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
 
+        
 
 
         // Pasar los datos a la vista

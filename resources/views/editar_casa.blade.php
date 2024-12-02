@@ -71,7 +71,7 @@
             <select class="form-select" id="Estatus" name="Estatus" required>
                 <option value="" disabled>Selecciona un estatus</option>
                 <option value="Disponible" {{ old('Estatus', $casa->Estatus) == 'Disponible' ? 'selected' : '' }}>Disponible</option>
-                <option value="Rentada" {{ old('Estatus', $casa->Estatus) == 'Rentada' ? 'selected' : '' }}>Rentada</option>
+                <option value="Rentada" {{ old('Estatus', $casa->Estatus) == 'Rentado' ? 'selected' : '' }}>Rentado</option>
             </select>
         </div>
     

@@ -6,10 +6,15 @@ use App\Models\Propiedad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 class RentaController extends Controller
 {
     public function rentar($id)
     {
+
+        // Buscar la propiedad
         $propiedad = Propiedad::findOrFail($id);
 
         if ($propiedad->Estatus !== 'Disponible') {
@@ -23,7 +28,24 @@ class RentaController extends Controller
             'Estatus' => 'Rentado',
         ]);
 
-        return redirect()->back()->with('success', '¡Has rentado la propiedad con éxito!');
+
+        // Datos para el contrato
+        $data = [
+            'ciudad' => $propiedad->Estado . ', ' . $propiedad->Municipio,
+            'fecha' => now()->format('d-m-Y'),
+            'arrendador' => $propiedad->usuario->nombres . ' ' . $propiedad->usuario->apellido_paterno . ' ' . $propiedad->usuario->apellido_materno,
+            'arrendatario' => Auth::user()->nombres. ' ' .Auth::user()->apellido_paterno. ' ' . Auth::user()->apellido_materno, 
+            'direccion' => $propiedad->Direccion, 
+            'inicio' => now()->format('d-m-Y'),
+            'fin' => now()->addYear()->format('d-m-Y'), 
+            'renta' => $propiedad->Precio_Renta, 
+        ];
+
+        // Generar el PDF del contrato usando la vista y los datos
+        $pdf = Pdf::loadView('contrato', $data);
+
+        return $pdf->download('contrato_renta_'.$propiedad->id.'.pdf');
+
     }
 
     public function misRentas()
