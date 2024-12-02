@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CasaController;
-use App\Http\Controllers\RentaController; 
+use App\Http\Controllers\RentaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,9 +13,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/propiedades/{id}/detalles', [CasaController::class, 'detalles'])->name('propiedades.Detalles');
 Route::post('/casas/municipios', [HomeController::class, 'obtenerMunicipios'])->name('casas.municipios');
-Route::post('casas', [HomeController::class, 'guardar'])->name('casas.guardar'); 
+Route::post('casas', [HomeController::class, 'guardar'])->name('casas.guardar');
 Route::get('/casas/editar/{id}', [CasaController::class, 'editar'])->name('casas.editar');
 Route::put('/casas/actualizar/{id}', [CasaController::class, 'actualizar'])->name('casas.actualizar');
 Route::delete('/casas/eliminar/{id}', [CasaController::class, 'eliminar'])->name('casas.eliminar');

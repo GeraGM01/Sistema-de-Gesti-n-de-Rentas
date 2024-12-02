@@ -7,7 +7,9 @@
         <h1 class="fw-bold">Propiedades Disponibles</h1>
         <!-- Solo mostrar el botón de agregar propiedad si el usuario está autenticado -->
         @auth
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCasaModal">Agregar Propiedad</button>
+        @if(auth()->user()->rol === 'arrendador')
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCasaModal">Agregar Propiedad</button>
+         @endif
         @endauth
     </div>
 
@@ -26,11 +28,11 @@
                         <!-- Imagen de fondo -->
                         <div class="card-img-top"
                              style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
-                                    background-size: cover; 
+                                    background-size: cover;
                                     background-position: center;
                                     height: 200px;">
                         </div>
-                        
+
                         <!-- Información de la casa -->
                         <div class="card-body">
                             <h5 class="card-title">{{ $casa->Tipo }} - ${{ $casa->Precio_Renta }}.00</h5>
@@ -41,10 +43,14 @@
 
                             @if ($casa->Estatus === 'Disponible')
                                 @auth
+                                <div class="d-flex gap-2">
                                     <form action="{{ route('propiedades.rentar', $casa->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-success">Rentar</button>
                                     </form>
+                                    <a href="{{ route('propiedades.Detalles', $casa->id) }}" class="btn btn-primary">Ver Detalles</a>
+                                </div>
+
                                 @else
                                     <span class="badge bg-primary">Disponible</span>
                                 @endauth
@@ -159,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addImageButton.addEventListener('click', () => {
         const newImageInput = document.createElement('div');
         newImageInput.classList.add('mb-3');
-        newImageInput.innerHTML = 
+        newImageInput.innerHTML =
             `<label for="images" class="form-label">Subir Imágenes</label>
             <input type="file" class="form-control" name="images[]" accept="image/*" multiple>
             <button type="button" class="btn btn-danger remove-image-btn">Eliminar</button>`;
