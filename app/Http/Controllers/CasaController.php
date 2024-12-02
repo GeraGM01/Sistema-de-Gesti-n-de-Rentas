@@ -30,15 +30,11 @@ class CasaController extends Controller
         $user = Auth::user();
 
        // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
-<<<<<<< HEAD
+
         $casas = Propiedad::where('ID_Usuario', 1)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
-        
-        
-=======
-        $casas = Propiedad::where('ID_Usuario', $user->id)->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
 
+        
 
->>>>>>> c2beaf4 (Pdf)
 
         // Pasar los datos a la vista
         return view('casas', [
@@ -79,7 +75,7 @@ class CasaController extends Controller
     {
 
         $nuevaCasa = new Propiedad();
-        $nuevaCasa->ID_Usuario = 1; // Asignar un usuario por defecto, puedes personalizar esto 
+        $nuevaCasa->ID_Usuario = 1; // Asignar un usuario por defecto, puedes personalizar esto
         $nuevaCasa->direccion = $request->Direccion;
         $nuevaCasa->estado = $request->Estado;
         $nuevaCasa->municipio = $request->Municipio;
@@ -89,8 +85,8 @@ class CasaController extends Controller
         $nuevaCasa->descripcion = $request->Descripcion;
         $nuevaCasa->save(); // Guardar la casa en la base de datos
 
-        
-       
+
+
         // Manejo de las imágenes
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -184,7 +180,13 @@ class CasaController extends Controller
 
         return response()->json(['success' => false]);
     }
+    public function detalles($id)
+    {
+        // Buscar la propiedad por su ID junto con sus imágenes
+        $propiedad = Propiedad::with('imagenes')->findOrFail($id);
 
-    
+        // Retornar la vista 'detalles' pasando los datos de la propiedad
+        return view('detalles', ['propiedad' => $propiedad]);
+    }
 
 }

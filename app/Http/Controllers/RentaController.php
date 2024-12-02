@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Propiedad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class RentaController extends Controller
 {
     public function rentar($id)
     {
+
         // Buscar la propiedad
         $propiedad = Propiedad::findOrFail($id);
 
-        // Verificar si la propiedad está disponible para renta
         if ($propiedad->Estatus !== 'Disponible') {
             return redirect()->back()->with('error', 'Esta propiedad no está disponible para renta.');
         }
@@ -25,6 +27,7 @@ class RentaController extends Controller
             'rented_at' => now(),
             'Estatus' => 'Rentado',
         ]);
+
 
         // Datos para el contrato
         $data = [
@@ -42,6 +45,7 @@ class RentaController extends Controller
         $pdf = Pdf::loadView('contrato', $data);
 
         return $pdf->download('contrato_renta_'.$propiedad->id.'.pdf');
+
     }
 
     public function misRentas()

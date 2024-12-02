@@ -53,8 +53,6 @@
                 <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Condominio</option>
                 <option value="Comercial" {{ old('Tipo', $casa->Tipo) == 'Comercial' ? 'selected' : '' }}>Oficina</option>
             </select>
-        </div>
-    
         <!-- Precio de renta -->
         <div class="mb-3">
             <label for="Precio_Renta" class="form-label">Precio de Renta</label>
