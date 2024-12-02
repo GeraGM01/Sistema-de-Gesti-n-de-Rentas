@@ -15,6 +15,7 @@
 
     <!-- Mostrar mensaje si no hay casas -->
     @if ($casas->isEmpty())
+>>>>>>> master
     <div class="alert alert-warning text-center" role="alert">
         No hay casas disponibles para mostrar en este momento.
     </div>

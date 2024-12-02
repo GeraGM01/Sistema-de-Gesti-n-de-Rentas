@@ -44,6 +44,19 @@ class RentaController extends Controller
         // Generar el PDF del contrato usando la vista y los datos
         $pdf = Pdf::loadView('contrato', $data);
 
+        // Enviar correo al arrendatario
+        \Mail::to(Auth::user()->email)->send(new \App\Mail\ContratoRentaMail($data, $pdf));
+
+        // Enviar correo al arrendador
+        \Mail::to($propiedad->usuario->email)->send(new \App\Mail\ContratoRentaMailDueño([
+            'ciudad' => $data['ciudad'],
+            'direccion' => $data['direccion'],
+            'inicio' => $data['inicio'],
+            'fin' => $data['fin'],
+            'renta' => $data['renta'],
+            'mensaje' => 'Tu propiedad ha sido rentada.',
+            ], $pdf));
+
         return $pdf->download('contrato_renta_'.$propiedad->id.'.pdf');
 
     }
