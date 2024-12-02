@@ -27,12 +27,12 @@ class Propiedad extends Model
         'Descripcion',
         'Tipo',
         'Estatus',
+        'rented_by',
+        'rented_at',
     ];
 
-    // Si no usas timestamps (opcional, eliminar si los usas)
     public $timestamps = true;
 
-    // Relaciones posibles (opcional, ajusta según tus necesidades)
 
     /**
      * Relación con el usuario.
@@ -49,4 +49,12 @@ class Propiedad extends Model
     {
         return $this->hasMany(imagen::class, 'propiedad_id');
     }
+
+
+
+    public function arrendatario()
+    {
+        return $this->belongsTo(User::class, 'rented_by');
+    }
+
 }

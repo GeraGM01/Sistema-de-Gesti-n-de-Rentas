@@ -8,7 +8,7 @@
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCasaModal">Agregar Casa</button>
     </div>
 
-    <!--cards con la informacion de las casas-->
+    <!-- Cards con la información de las casas -->
     @if ($casas->isEmpty())
         <!-- Mensaje si no hay casas -->
         <div class="alert alert-warning text-center" role="alert">
@@ -20,29 +20,38 @@
             @foreach ($casas as $casa)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                       <!-- Imagen de fondo -->
-                       <div 
+                        <!-- Imagen de fondo -->
+                        <div 
                             class="card-img-top" 
                             style="background-image: url('{{ asset('storage/' . $casa->imagenes->first()->path) }}');
-                                    background-size: cover; 
-                                    background-position: center; 
-                                    height: 200px;">
+                                   background-size: cover; 
+                                   background-position: center; 
+                                   height: 200px;">
                         </div>
                         
                         <!-- Información de la casa -->
                         <div class="card-body">
-                            <h5 class="card-title">{{ $casa->Tipo }}  ${{ $casa->Precio_Renta }}.00</h5>
+                            <h5 class="card-title">{{ $casa->Tipo }} - ${{ $casa->Precio_Renta }}.00</h5>
                             <p class="card-text">
-                                <strong>Dirección:</strong> {{ $casa->Direccion }} <br>
+                                <strong>Dirección:</strong> {{ $casa->Direccion }}<br>
                                 <strong>Estatus:</strong> {{ $casa->Estatus }}
                             </p>
+
+                            <!-- Botón para rentar o estado de la propiedad -->
+                            @if ($casa->Estatus === 'Disponible')
+                                <form action="{{ route('propiedades.rentar', $casa->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Rentar</button>
+                                </form>
+                            @else
+                                <span class="badge bg-danger">Rentado</span>
+                            @endif
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @endif
-    
 
     <!-- Modal para agregar casa -->
     <div class="modal fade" id="agregarCasaModal" tabindex="-1" aria-labelledby="agregarCasaModalLabel" aria-hidden="true">

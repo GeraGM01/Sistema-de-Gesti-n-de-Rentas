@@ -33,7 +33,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <!-- Verificar si el usuario está autenticado -->
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">Inicio</a>
+                            </li>
+                            @if(auth()->user()->rol === 'arrendatario')
+                                <li class="nav-item ms-2"> <!-- Clase ms-2 para dar margen entre elementos -->
+                                    <a class="nav-link" href="{{ route('rentas.mis-rentas') }}">Mis Rentas</a>
+                                </li>
+                            @endif
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -72,6 +82,7 @@
                         @endguest
                     </ul>
                 </div>
+
             </div>
         </nav>
 
