@@ -20,8 +20,7 @@
         <div class="alert alert-warning text-center" role="alert">
             No hay casas disponibles para mostrar en este momento.
         </div>
-
-    @else
+    
     <!-- Tarjetas de las propiedades -->
     <div class="row">
         @foreach ($casas as $casa)
