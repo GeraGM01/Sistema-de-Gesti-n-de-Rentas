@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // URL de la API
+        // URL de la API para obtener estados y municipios
         $apiUrl = 'https://raw.githubusercontent.com/martinciscap/json-estados-municipios-mexico/master/estados-municipios.json';
 
         // Hacer una solicitud GET a la API
@@ -41,21 +41,32 @@ class HomeController extends Controller
         // Obtener los datos en formato JSON
         $estadosMunicipios = $response->json();
 
-       // Obtener las propiedades del usuario con ID_Usuario == 1 y su primera imagen
-        $casas = Propiedad::where('ID_Usuario',  Auth::id() )->with('imagenes')->get(); // Cargar las imágenes sin ordenarlas
-        
-            // Obtener las casas con estatus 'Disponible'
-        $casasDisponibles = Propiedad::where('estatus', 'Disponible')
-        ->with('imagenes') // Para cargar las imágenes de las casas
-        ->get();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Determinar qué propiedades mostrar según el rol del usuario
+        if ($user->rol === 'arrendador') {
+            // Mostrar todas las propiedades para arrendador
+            $casas = Propiedad::where('ID_Usuario', $user->id)
+                ->with('imagenes')
+                ->get();
+        } elseif ($user->rol === 'arrendatario') {
+            // Mostrar solo propiedades disponibles para arrendatario
+            $casas = Propiedad::where('estatus', 'Disponible')
+                ->with('imagenes')
+                ->get();
+        } else {
+            // Por defecto, no mostrar propiedades si no es arrendador o arrendatario
+            $casas = collect();
+        }
 
         // Pasar los datos a la vista
         return view('home', [
             'estados' => $estadosMunicipios,
             'casas' => $casas,
-            'casasD' => $casasDisponibles,
         ]);
     }
+
 
     public function obtenerMunicipios(Request $request)
     {
